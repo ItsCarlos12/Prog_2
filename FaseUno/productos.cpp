@@ -73,6 +73,7 @@ void crearProducto(Tienda* tienda){
     if(tienda -> numProductos == tienda -> capacidadProductos){
         redimensionarProductos(tienda);
     }
+
     Producto& p = tienda -> productos[tienda -> numProductos];
 
     //3. Solicitar los datos.
@@ -94,6 +95,10 @@ void crearProducto(Tienda* tienda){
     //Nombre
     cout << "Ingrese el nombre del producto: ";
     cin.getline(p.nombre, 100);
+
+    //Descripcion
+    cout << "Ingrese la descripcion del producto: ";
+    cin.getline(p.descripcion, 200);
 
     //ID proveedor
     int temp;
@@ -122,17 +127,22 @@ void crearProducto(Tienda* tienda){
         cout << "Error: el stock debe ser mayor o igual a 0." << endl;
         return;
     }
+    cin.ignore();
 
     //4 y 6. Asignacion automatica
 
     p.id = tienda -> siguienteIdProducto;
     obtenerFechaActual(p.fechaRegistro);
 
-    cout << "---Producto Registrado---" << endl;
-    cout << "ID: " << p.id << " | Codigo: " << p.codigo <<" | Nombre: " << p.nombre << " | Fecha de Registro: " << p.fechaRegistro << endl;
-    cout << "Precio: " <<p.precio << " | Stock: " << p.stock <<endl;
+    cout << "\n--- Vista previa del registro ---" <<endl;
+    mostrarTabla();
+    imprimirFilaProducto(p);
+    int anchos[] = {4, 12, 20, 12, 10, 8, 12};
+    int col = 7;
+    dibujarTabla(anchos, col);
 
-    //Confirmacion final de si se quiere agregar el producto.
+    cout << "Descripcion: " << p.descripcion <<endl;
+
     cout <<" Confirmar guardado? (S/N): ";
     cin >> opcion;
 
@@ -202,6 +212,7 @@ void buscarProducto(Tienda* tienda){
     }
 }
 
+//Mostrar Tabla
 void mostrarTabla(){
     int anchos [] = {4, 12, 20, 12, 10, 8, 12};
     int col = 7;
@@ -223,6 +234,7 @@ void mostrarTabla(){
     dibujarTabla(anchos, col);
 }
 
+//Imprimir los productos en tabla.
 void imprimirFilaProducto(const Producto& p){
     int anchos[] = {4, 12, 20, 12, 10, 8, 12};
 
@@ -234,3 +246,50 @@ void imprimirFilaProducto(const Producto& p){
          << "| " << setw(anchos[5]) << p.stock
          << "| " << setw(anchos[6]) << p.fechaRegistro << " |" <<endl;
 }
+
+int obtenerIndice(Tienda * tienda, int idBuscar){
+    for(int i = 0; i < tienda -> numProductos; i++){
+        if(tienda -> productos[i].id == idBuscar){
+            return i; 
+        }
+    }
+    return -1;
+}
+
+void actualizarProducto(Tienda* tienda){
+    if(tienda -> numProductos == 0){
+        cout << "\nNo hay productos registrados" << endl;
+        return;
+    }
+
+    int idBuscar;
+    cout << "\n---Actualizar producto---" << endl;
+    cout << "Ingrese el ID del producto: ";
+    cin >> idBuscar;
+    cin.ignore();
+
+    int indice = obtenerIndice(tienda, idBuscar);
+
+    if(indice == -1){
+        cout << "Error: el producto con ID " << idBuscar << " no existe." << endl;
+        return;
+    }
+
+    Producto pEdit = tienda -> productos[indice];
+    int opcion;
+    int anchos[] = {4, 12, 20, 12, 10, 8, 12};
+    int col = 7;
+
+    do{
+        cout << "\nDatos actuales del producto" << endl;
+        mostrarTabla();
+        imprimirFilaProducto(pEdit);
+        dibujarTabla(anchos, col);
+
+        cout << "\nQue desea agregar/editar?" << endl;
+        cout << "1. Codigo\n2. Nombre\n3. Descripcion\n4. Por ID Proveedor\nSeleccione";
+
+
+    }
+}
+

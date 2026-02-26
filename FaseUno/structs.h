@@ -83,5 +83,6 @@ void crearProducto(Tienda* tienda);
 void buscarProducto(Tienda* tienda);
 void dibujarTabla(int anchos[], int columnas);
 bool compararLetras(const char* original, const char* busqueda);
+void actualizarProducto(Tienda* tienda);
 
 #endif 
