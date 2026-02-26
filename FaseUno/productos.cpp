@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstring> 
+#include<iomanip>
 #include "structs.h"
 
 using namespace std;
@@ -143,5 +144,93 @@ void crearProducto(Tienda* tienda){
     else{
         cout<<"Registro descartado."<<endl;
     }
+}
 
+void buscarProducto(Tienda* tienda){
+    if(tienda -> numProductos == 0){
+        cout << "No hay productos registrados"<<endl;
+        return;
+    }
+
+    int opcion;
+    char criterio[100];
+    cout<<"\n---Menu de Busqueda---"<<endl;
+    cout<<"1. Por Id\n2. Por codigo\n3. Por Nombre(Parcial)\n4. Por ID Proveedor\nSeleccione";
+    cin>>opcion;
+    cin.ignore();
+
+    cout<<"Ingrese el valor a buscar";
+    cin.getline(criterio, 100);
+
+    bool encontrado = false;
+    bool tablaMostrada = false;
+
+    for(int i = 0; i<tienda -> numProductos; i++){
+        Producto& p = tienda -> productos[i];
+        bool coincide = false;
+
+        switch(opcion){
+            case 1:
+                if(p.id == atoi(criterio)){
+                    coincide = true;
+                }break;
+            case 2:
+                if(compararLetras(p.codigo, criterio)){
+                    coincide = true;
+                }break;
+            case 3: 
+                if(compararLetras(p.nombre, criterio)){
+                    coincide = true;
+                }break;
+            case 4: 
+                if(p.idProveedor == atoi(criterio)){
+                    coincide = true;
+                }break;
+        }
+
+        if(encontrado){
+            int col = 7;
+            int anchos[] = {4, 12, 20, 12, 10, 8, 12};
+            dibujarTabla(anchos, col);
+        }else{
+            cout << "\n[i] No se encontraron productos con ese criterio" <<endl;
+        }
+    }
+
+    if(!encontrado){
+        cout << "No se encontraron coincidencias"<<endl;
+    }
+}
+
+void mostrarTabla(){
+    int anchos [] = {4, 12, 20, 12, 10, 8, 12};
+    int col = 7;
+
+    cout << "\n" << setfill('=') << setw(85) << "" <<endl;
+    cout << " Listado de Productos" << endl; 
+    cout << setw(85) << "" << setfill(' ') << endl;
+
+    dibujarTabla(anchos, col);
+
+    cout << "| " << left << setw(anchos[0]) << "ID"
+         << "| " << setw(anchos[1]) << "Codigo"
+         << "| " << setw(anchos[2]) << "Nombre"
+         << "| " << setw(anchos[3]) << "Proveedor"
+         << "| " << setw(anchos[4]) << "Precio"
+         << "| " << setw(anchos[5]) << "Stock"
+         << "| " << setw(anchos[6]) << "Fecha" << " |" <<endl;
+         
+    dibujarTabla(anchos, col);
+}
+
+void imprimirFilaProducto(const Producto& p){
+    int anchos[] = {4, 12, 20, 12, 10, 8, 12};
+
+    cout << "| " << left << setw(anchos[0]) << p.id
+         << "| " << setw(anchos[1]) << p.codigo
+         << "| " << setw(anchos[2]) << p.nombre
+         << "| " << setw(anchos[3]) << p.idProveedor
+         << "| " << setw(anchos[4]) << fixed << setprecision(2) <<  p.precio
+         << "| " << setw(anchos[5]) << p.stock
+         << "| " << setw(anchos[6]) << p.fechaRegistro << " |" <<endl;
 }

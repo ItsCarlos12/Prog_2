@@ -54,3 +54,36 @@ void liberarTienda(Tienda* tienda){
 
     cout<<"La memoria se libero correctamente."<<endl;
 }
+
+
+//Transformacion temporal a minusculas.
+bool compararLetras(const char* original, const char* busqueda){
+    if(!original || !busqueda) return false;
+
+    char tempOriginal[100];
+    char tempBusqueda[100];
+
+    for(int i = 0; original[i] && i < 99; i++){
+        tempOriginal[i] = tolower(original[i]);
+        tempOriginal[i] = '\0';
+    }
+
+
+    for(int j = 0; busqueda[j] && j < 99; j++){
+        tempBusqueda[j] = tolower(busqueda[j]);
+        tempBusqueda[j] = '\0';
+    }
+
+
+    return strstr(tempOriginal, tempBusqueda) != nullptr;
+}
+
+//Creacion de tabla.
+void dibujarTabla(int anchos[], int columnas){
+    cout << "+";
+    for(int i = 0; i < columnas; i++){
+        for(int j = 0; j < anchos[i] + 2; j++) cout << "-";
+        cout << "+";
+    }
+    cout << endl;
+}

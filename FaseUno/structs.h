@@ -80,5 +80,8 @@ struct Tienda{
 void inicializarTienda(Tienda* tienda, const char* nombre, const char* rif);
 void liberarTienda(Tienda* tienda);
 void crearProducto(Tienda* tienda);
+void buscarProducto(Tienda* tienda);
+void dibujarTabla(int anchos[], int columnas);
+bool compararLetras(const char* original, const char* busqueda);
 
 #endif 
