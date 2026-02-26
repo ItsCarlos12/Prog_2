@@ -287,9 +287,22 @@ void actualizarProducto(Tienda* tienda){
         dibujarTabla(anchos, col);
 
         cout << "\nQue desea agregar/editar?" << endl;
-        cout << "1. Codigo\n2. Nombre\n3. Descripcion\n4. Por ID Proveedor\nSeleccione";
+        cout << "1. Codigo\n2. Nombre\n3. Descripcion\n4. Por ID Proveedor\n0. Guardar y volver\nSeleccione: ";
+        cin >> opcion;
+        cin.ignore();
 
+        switch(opcion){
+            case 0:
+                break;
+            case 1: case 2: case 3: case 4:
+                cout << "Opcion en desarrollo." << endl;
+                break;
+            default:
+                cout << "Opcion no valida." << endl;
+        }
+    } while(opcion != 0);
 
-    }
+    tienda -> productos[indice] = pEdit;
+    cout << "Producto actualizado correctamente." << endl;
 }
 
