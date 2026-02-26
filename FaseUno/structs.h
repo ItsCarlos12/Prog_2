@@ -1,7 +1,6 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-
 struct Producto{
     int id;
     char codigo[20];
@@ -76,5 +75,10 @@ struct Tienda{
     int siguienteIdCliente;
     int siguienteIdTransaccion;
 };
+
+//Prototipos
+void inicializarTienda(Tienda* tienda, const char* nombre, const char* rif);
+void liberarTienda(Tienda* tienda);
+void crearProducto(Tienda* tienda);
 
 #endif 

@@ -1,6 +1,5 @@
 #include <iostream>
-#include <ctime>
-#include <cstring> 
+#include <cstring>
 #include "structs.h"
 
 using namespace std;
@@ -55,4 +54,3 @@ void liberarTienda(Tienda* tienda){
 
     cout<<"La memoria se libero correctamente."<<endl;
 }
-
