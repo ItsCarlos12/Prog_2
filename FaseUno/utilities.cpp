@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <cctype>
 #include "structs.h"
 
 using namespace std;
@@ -62,18 +63,17 @@ bool compararLetras(const char* original, const char* busqueda){
 
     char tempOriginal[100];
     char tempBusqueda[100];
+    int i, j;
 
-    for(int i = 0; original[i] && i < 99; i++){
-        tempOriginal[i] = tolower(original[i]);
-        tempOriginal[i] = '\0';
+    for(i = 0; original[i] && i < 99; i++){
+        tempOriginal[i] = tolower((unsigned char)original[i]);
     }
+    tempOriginal[i] = '\0';
 
-
-    for(int j = 0; busqueda[j] && j < 99; j++){
-        tempBusqueda[j] = tolower(busqueda[j]);
-        tempBusqueda[j] = '\0';
+    for(j = 0; busqueda[j] && j < 99; j++){
+        tempBusqueda[j] = tolower((unsigned char)busqueda[j]);
     }
-
+    tempBusqueda[j] = '\0';
 
     return strstr(tempOriginal, tempBusqueda) != nullptr;
 }

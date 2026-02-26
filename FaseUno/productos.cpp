@@ -164,18 +164,25 @@ void buscarProducto(Tienda* tienda){
 
     int opcion;
     char criterio[100];
-    cout<<"\n---Menu de Busqueda---"<<endl;
-    cout<<"1. Por Id\n2. Por codigo\n3. Por Nombre(Parcial)\n4. Por ID Proveedor\nSeleccione";
-    cin>>opcion;
+    cout << "\n--- Menu de Busqueda ---" << endl;
+    cout << "1. Por Id\n2. Por codigo\n3. Por Nombre (Parcial)\n4. Por ID Proveedor\n0. Cancelar\nSeleccione: ";
+    cin >> opcion;
     cin.ignore();
 
-    cout<<"Ingrese el valor a buscar";
+    if(opcion == 0){
+        cout << "Busqueda cancelada. Volviendo al menu principal." << endl;
+        return;
+    }
+
+    cout << "Ingrese el valor a buscar: ";
     cin.getline(criterio, 100);
 
     bool encontrado = false;
     bool tablaMostrada = false;
+    int anchos[] = {4, 12, 20, 12, 10, 8, 12};
+    int col = 7;
 
-    for(int i = 0; i<tienda -> numProductos; i++){
+    for(int i = 0; i < tienda -> numProductos; i++){
         Producto& p = tienda -> productos[i];
         bool coincide = false;
 
@@ -183,32 +190,41 @@ void buscarProducto(Tienda* tienda){
             case 1:
                 if(p.id == atoi(criterio)){
                     coincide = true;
-                }break;
+                }
+                break;
             case 2:
                 if(compararLetras(p.codigo, criterio)){
                     coincide = true;
-                }break;
-            case 3: 
+                }
+                break;
+            case 3:
                 if(compararLetras(p.nombre, criterio)){
                     coincide = true;
-                }break;
-            case 4: 
+                }
+                break;
+            case 4:
                 if(p.idProveedor == atoi(criterio)){
                     coincide = true;
-                }break;
+                }
+                break;
+            default:
+                cout << "Opcion no valida." << endl;
+                return;
         }
 
-        if(encontrado){
-            int col = 7;
-            int anchos[] = {4, 12, 20, 12, 10, 8, 12};
+        if(coincide){
+            if(!tablaMostrada){
+                mostrarTabla();
+                tablaMostrada = true;
+            }
+            imprimirFilaProducto(p);
             dibujarTabla(anchos, col);
-        }else{
-            cout << "\n[i] No se encontraron productos con ese criterio" <<endl;
+            encontrado = true;
         }
     }
 
     if(!encontrado){
-        cout << "No se encontraron coincidencias"<<endl;
+        cout << "\nNo se encontraron coincidencias." << endl;
     }
 }
 
