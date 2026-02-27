@@ -78,6 +78,22 @@ bool compararLetras(const char* original, const char* busqueda){
     return strstr(tempOriginal, tempBusqueda) != nullptr;
 }
 
+void obtenerNombreProveedor(Tienda* tienda, int idProveedor, char* buffer, int bufferSize){
+    if(!tienda || !buffer || bufferSize <= 0){
+        if(buffer && bufferSize > 0) buffer[0] = '\0';
+        return;
+    }
+    for(int i = 0; i < tienda -> numProveedores; i++){
+        if(tienda -> proveedores[i].id == idProveedor){
+            strncpy(buffer, tienda -> proveedores[i].nombre, bufferSize - 1);
+            buffer[bufferSize - 1] = '\0';
+            return;
+        }
+    }
+    strncpy(buffer, "N/A", bufferSize - 1);
+    buffer[bufferSize - 1] = '\0';
+}
+
 //Validacion de email: debe contener '@' y al menos un '.' despues del @
 bool validarEmail(const char* email){
     if(!email || !email[0]) return false;

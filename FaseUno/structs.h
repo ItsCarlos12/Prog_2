@@ -84,6 +84,7 @@ void liberarTienda(Tienda* tienda);
 void crearProducto(Tienda* tienda);
 void buscarProducto(Tienda* tienda);
 void actualizarProducto(Tienda* tienda);
+void listarProductos(Tienda* tienda);
 
 //Prototipos - Proveedores
 void crearProveedor(Tienda* tienda);
@@ -99,5 +100,6 @@ bool compararLetras(const char* original, const char* busqueda);
 bool validarEmail(const char* email);
 bool rifDuplicado(Tienda* tienda, const char* rif);
 void obtenerFechaActual(char* fecha);
+void obtenerNombreProveedor(Tienda* tienda, int idProveedor, char* buffer, int bufferSize);
 
 #endif 

@@ -240,6 +240,44 @@ void buscarProducto(Tienda* tienda){
     }
 }
 
+void listarProductos(Tienda* tienda){
+    if(tienda -> numProductos == 0){
+        cout << "\nNo hay productos registrados." << endl;
+        return;
+    }
+
+    int anchos[] = {4, 12, 20, 20, 10, 8, 12};
+    int col = 7;
+    char nombreProveedor[100];
+
+    cout << "\n" << setfill('=') << setw(95) << "" << endl;
+    cout << " LISTADO DE PRODUCTOS" << endl;
+    cout << setw(95) << "" << setfill(' ') << endl;
+    dibujarTabla(anchos, col);
+    cout << "| " << left << setw(anchos[0]) << "ID"
+         << "| " << setw(anchos[1]) << "Codigo"
+         << "| " << setw(anchos[2]) << "Nombre"
+         << "| " << setw(anchos[3]) << "Proveedor"
+         << "| " << setw(anchos[4]) << "Precio"
+         << "| " << setw(anchos[5]) << "Stock"
+         << "| " << setw(anchos[6]) << "Fecha" << " |" << endl;
+    dibujarTabla(anchos, col);
+
+    for(int i = 0; i < tienda -> numProductos; i++){
+        Producto& p = tienda -> productos[i];
+        obtenerNombreProveedor(tienda, p.idProveedor, nombreProveedor, 100);
+        cout << "| " << left << setw(anchos[0]) << p.id
+             << "| " << setw(anchos[1]) << p.codigo
+             << "| " << setw(anchos[2]) << p.nombre
+             << "| " << setw(anchos[3]) << nombreProveedor
+             << "| " << setw(anchos[4]) << fixed << setprecision(2) << p.precio
+             << "| " << setw(anchos[5]) << p.stock
+             << "| " << setw(anchos[6]) << p.fechaRegistro << " |" << endl;
+    }
+    dibujarTabla(anchos, col);
+    cout << "Total de productos: " << tienda -> numProductos << endl;
+}
+
 //Mostrar Tabla
 void mostrarTabla(){
     int anchos [] = {4, 12, 20, 12, 10, 8, 12};
