@@ -14,6 +14,7 @@ int main(){
         cout << "\n===== Sistema de Gestion de " << miTienda.nombre << " =====" << endl;
         cout << "1. Registrar producto" << endl;
         cout << "2. Buscar producto" << endl;
+        cout << "3. Actualizar producto" << endl;
         cout << "0. Salir" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
@@ -26,6 +27,10 @@ int main(){
 
             case 2: 
                 buscarProducto(&miTienda);
+                break;
+
+            case 3:
+                actualizarProducto(&miTienda);
                 break;
 
             case 0:
