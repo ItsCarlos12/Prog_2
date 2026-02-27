@@ -302,23 +302,34 @@ void actualizarProducto(Tienda* tienda){
         imprimirFilaProducto(pEdit);
         dibujarTabla(anchos, col);
 
-        cout << "\nQue desea agregar/editar?" << endl;
-        cout << "1. Codigo\n2. Nombre\n3. Descripcion\n4. Por ID Proveedor\n0. Guardar y volver\nSeleccione: ";
+        cout << "\nQue desea editar?" << endl;
+        cout << "1. Codigo\n2. Nombre\n3. Descripcion\n4. Proveedor\n5. Precio\n6. Stock\n7. Guardar cambios\n0. Cancelar sin guardar\nSeleccione: ";
         cin >> opcion;
         cin.ignore();
 
         switch(opcion){
-            case 0:
+            case 0:{
+                cout << "Cambios descartados. Volviendo al menu principal." << endl;
+                return;
+            }
+            case 7:{
+                char confirmar;
+                cout << "¿Guardar cambios? (S/N): ";
+                cin >> confirmar;
+                cin.ignore();
+                if(confirmar == 's' || confirmar == 'S'){
+                    tienda -> productos[indice] = pEdit;
+                    cout << "Producto actualizado correctamente." << endl;
+                    return;
+                }
                 break;
-            case 1: case 2: case 3: case 4:
+            }
+            case 1: case 2: case 3: case 4: case 5: case 6:
                 cout << "Opcion en desarrollo." << endl;
                 break;
             default:
                 cout << "Opcion no valida." << endl;
         }
-    } while(opcion != 0);
-
-    tienda -> productos[indice] = pEdit;
-    cout << "Producto actualizado correctamente." << endl;
+    } while(true);
 }
 
