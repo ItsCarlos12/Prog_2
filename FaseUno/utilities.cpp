@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <cctype>
+#include<iomanip>
 #include "structs.h"
 
 using namespace std;
@@ -86,4 +87,29 @@ void dibujarTabla(int anchos[], int columnas){
         cout << "+";
     }
     cout << endl;
+}
+
+bool inventarioVacio(Tienda* tienda){
+    if(tienda -> numProductos == 0){
+        cout << "Operacion cancelada: el inventario esta vacio" << endl;
+        return true;
+    }
+
+    return false;
+}
+
+//dibujar en cada menu y no tener que estarlo haciendo a mano.
+void mostrarBanner(const char* titulo){
+    int ancho = 60;
+    int textlength = strlen(titulo);
+    int espacios = (ancho - textlength - 4)/2;
+
+    //para el borde superior
+    cout << "\n " << setfill('=') << setw(ancho) << "" << endl;
+
+    cout << "||" << setfill(' ') << setw(espacios) << ""
+         << titulo
+         << setw(ancho - textlength - espacios - 4) << "" << "||" << endl;
+         
+    cout << " " << setfill('=') << setw(ancho) << setfill(' ') <<endl;
 }

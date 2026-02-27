@@ -77,6 +77,7 @@ struct Tienda{
 };
 
 //Prototipos
+bool inventarioVacio(Tienda* tienda);
 void inicializarTienda(Tienda* tienda, const char* nombre, const char* rif);
 void liberarTienda(Tienda* tienda);
 void crearProducto(Tienda* tienda);
@@ -84,5 +85,10 @@ void buscarProducto(Tienda* tienda);
 void dibujarTabla(int anchos[], int columnas);
 bool compararLetras(const char* original, const char* busqueda);
 void actualizarProducto(Tienda* tienda);
+void eliminarProducto (Tienda* tienda);
+void listarProductos(Tienda* tienda);
+void actualizarStockProducto(Tienda* tienda);
+void mostrarBanner(const char* titulo);
+void menuProductos(Tienda* tienda);
 
 #endif 

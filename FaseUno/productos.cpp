@@ -6,6 +6,9 @@
 
 using namespace std;
 
+int col = 7;
+int anchos [] = {4, 12, 20, 12, 10, 8, 12};
+
 //5. Redimensionar el array.
 void redimensionarProductos(Tienda* tienda){
     //calcular nueva capacidad (doble de la actual).
@@ -38,6 +41,7 @@ bool codigoDuplicado(Tienda* tienda, const char* codigo){
     return false;
 }
 
+//Para verificar que el codigo que vamos a cambiar no este ya en otro producto.
 bool codigoDuplicadoEnOtros(Tienda* tienda, const char* codigo, int idExcluir){
     for(int i = 0; i < tienda -> numProductos; i++){
         if(tienda -> productos[i].id != idExcluir && strcmp(tienda -> productos[i].codigo, codigo) == 0){
@@ -147,7 +151,6 @@ void crearProducto(Tienda* tienda){
     mostrarTabla();
     imprimirFilaProducto(p);
     int anchos[] = {4, 12, 20, 12, 10, 8, 12};
-    int col = 7;
     dibujarTabla(anchos, col);
 
     cout << "Descripcion: " << p.descripcion <<endl;
@@ -166,10 +169,7 @@ void crearProducto(Tienda* tienda){
 }
 
 void buscarProducto(Tienda* tienda){
-    if(tienda -> numProductos == 0){
-        cout << "No hay productos registrados"<<endl;
-        return;
-    }
+    if(inventarioVacio(tienda)) return;
 
     int opcion;
     char criterio[100];
@@ -188,8 +188,6 @@ void buscarProducto(Tienda* tienda){
 
     bool encontrado = false;
     bool tablaMostrada = false;
-    int anchos[] = {4, 12, 20, 12, 10, 8, 12};
-    int col = 7;
 
     for(int i = 0; i < tienda -> numProductos; i++){
         Producto& p = tienda -> productos[i];
@@ -239,8 +237,6 @@ void buscarProducto(Tienda* tienda){
 
 //Mostrar Tabla
 void mostrarTabla(){
-    int anchos [] = {4, 12, 20, 12, 10, 8, 12};
-    int col = 7;
 
     cout << "\n" << setfill('=') << setw(85) << "" <<endl;
     cout << " Listado de Productos" << endl; 
@@ -261,7 +257,6 @@ void mostrarTabla(){
 
 //Imprimir los productos en tabla.
 void imprimirFilaProducto(const Producto& p){
-    int anchos[] = {4, 12, 20, 12, 10, 8, 12};
 
     cout << "| " << left << setw(anchos[0]) << p.id
          << "| " << setw(anchos[1]) << p.codigo
@@ -282,10 +277,7 @@ int obtenerIndice(Tienda * tienda, int idBuscar){
 }
 
 void actualizarProducto(Tienda* tienda){
-    if(tienda -> numProductos == 0){
-        cout << "\nNo hay productos registrados" << endl;
-        return;
-    }
+    if(inventarioVacio(tienda)) return;
 
     int idBuscar;
     cout << "\n---Actualizar producto---" << endl;
@@ -302,8 +294,6 @@ void actualizarProducto(Tienda* tienda){
 
     Producto pEdit = tienda -> productos[indice];
     int opcion;
-    int anchos[] = {4, 12, 20, 12, 10, 8, 12};
-    int col = 7;
 
     do{
         cout << "\nDatos actuales del producto" << endl;
@@ -420,3 +410,128 @@ void actualizarProducto(Tienda* tienda){
     } while(true);
 }
 
+void eliminarProducto(Tienda* tienda){
+
+    if(inventarioVacio(tienda)) return;
+
+    int idBuscar;
+    cout << "\n--- Eliminar Producto ---" << endl;
+    cout << "Ingrese el ID del producto a eliminar: ";
+    cin >> idBuscar;
+    cin.ignore();
+
+    int indice = obtenerIndice(tienda, idBuscar);
+
+    if(indice == -1){
+        cout << "Error: no se encontro el producto con el ID: " << idBuscar << endl;
+    }
+
+    cout << "\nProducto a eliminar: " << endl;
+    mostrarTabla();
+    imprimirFilaProducto(tienda -> productos[indice]);
+    dibujarTabla(anchos, col);
+
+    char confirmar;
+    cout << "\n Esta seguro de eliminar este producto permanentemente? (S/N)";
+    cin >> confirmar;
+    cin.ignore();
+
+    if(confirmar == 's' || confirmar == 'S'){
+        for(int i = indice; i<tienda -> numProductos -1; i++){
+            tienda -> productos[i] = tienda -> productos[i+1];
+        }
+
+        tienda -> numProductos--;
+
+        cout << "Producto eliminado exitosamente." << endl;
+    }else{
+        cout <<  "Operacion cancelada." << endl; 
+    }
+}
+
+void listarProductos(Tienda* tienda){
+    if(inventarioVacio(tienda)) return;
+
+    mostrarTabla();
+
+    for(int i = 0; i < tienda -> numProductos; i++){
+        imprimirFilaProducto(tienda -> productos[i]);
+    }
+
+    dibujarTabla(anchos, col);
+
+    cout << "Total de productos registrados: " << tienda -> numProductos << endl;
+}
+
+void actualizarStockProducto(Tienda* tienda){
+    if(inventarioVacio(tienda)) return;
+
+    int idBuscar;
+    cout << "\n--- Actualizar Stock(Manual) ---" << endl;
+    cout << "Ingrese el ID del producto: ";
+    cin >> idBuscar;
+    cin.ignore();
+
+    int indice = obtenerIndice(tienda, idBuscar);
+
+    if(indice == -1){
+        cout << "\n Error: producto no encontrado." << endl;
+        return;
+    }
+
+    Producto& p = tienda -> productos[indice];
+
+    cout << "\nProducto: " << p.nombre << "| Stock Actual: " << p.stock << endl;
+
+    int ajuste;
+    cout << "Ingrese la cantidad a ajustar(por ejemplo 10 para sumar, -5 para restar): ";
+    cin >> ajuste;
+    cin.ignore();
+
+    if(p.stock + ajuste < 0){
+        cout << "Error: el stock final no puede ser menor a 0. Operacion cancelada." << endl;
+        return;
+    }
+
+    char confirmar; 
+    cout << "Confirmar ajuste. Final sera: " << (p.stock + ajuste) << " (S/N)";
+    cin >> confirmar;
+    cin.ignore();
+
+    if(confirmar == 's'|| confirmar == 'S'){
+        p.stock += ajuste;
+        cout << "Stock actualizado correctamente." << endl;
+    }else{
+        cout << "Ajuste cancelado. " << endl;
+    }
+}
+
+void menuProductos(Tienda* tienda){
+    int opcion;
+    
+    do{
+        mostrarBanner("Gestion de Productos");
+        cout << "1. Registrar producto" << endl;
+        cout << "2. Buscar producto" <<endl;
+        cout << "3. Actualizar datos (General)" << endl;
+        cout << "4. Actualizar stock (Manual)" << endl;
+        cout << "5. Listar inventario completo" << endl;
+        cout << "6. Eliminar producto" << endl;
+        cout << "0. Volver al menu principal" << endl;
+        cout << "\n Seleccione una opcion: ";
+
+        cin >> opcion;
+        cin.ignore();
+
+        switch (opcion){
+            case 1: crearProducto(tienda); break;
+            case 2: buscarProducto(tienda); break;
+            case 3: actualizarProducto(tienda); break;
+            case 4: actualizarStockProducto(tienda); break;
+            case 5: listarProductos(tienda); break;
+            case 6: eliminarProducto(tienda); break;
+            case 0: break;
+            default: cout << "\n Opcion no valida" << endl;
+        }
+    }while(opcion != 0);
+}
