@@ -15,6 +15,11 @@ int main(){
         cout << "1. Registrar producto" << endl;
         cout << "2. Buscar producto" << endl;
         cout << "3. Actualizar producto" << endl;
+        cout << "4. Registrar proveedor" << endl;
+        cout << "5. Listar proveedores" << endl;
+        cout << "6. Buscar proveedor" << endl;
+        cout << "7. Actualizar proveedor" << endl;
+        cout << "8. Eliminar proveedor" << endl;
         cout << "0. Salir" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
@@ -31,6 +36,26 @@ int main(){
 
             case 3:
                 actualizarProducto(&miTienda);
+                break;
+
+            case 4:
+                crearProveedor(&miTienda);
+                break;
+
+            case 5:
+                listarProveedores(&miTienda);
+                break;
+
+            case 6:
+                buscarProveedor(&miTienda);
+                break;
+
+            case 7:
+                actualizarProveedor(&miTienda);
+                break;
+
+            case 8:
+                eliminarProveedor(&miTienda);
                 break;
 
             case 0:

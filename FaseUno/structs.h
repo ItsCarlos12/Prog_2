@@ -76,13 +76,28 @@ struct Tienda{
     int siguienteIdTransaccion;
 };
 
-//Prototipos
+//Prototipos - Tienda
 void inicializarTienda(Tienda* tienda, const char* nombre, const char* rif);
 void liberarTienda(Tienda* tienda);
+
+//Prototipos - Productos
 void crearProducto(Tienda* tienda);
 void buscarProducto(Tienda* tienda);
+void actualizarProducto(Tienda* tienda);
+
+//Prototipos - Proveedores
+void crearProveedor(Tienda* tienda);
+void buscarProveedor(Tienda* tienda);
+void actualizarProveedor(Tienda* tienda);
+void listarProveedores(Tienda* tienda);
+void eliminarProveedor(Tienda* tienda);
+void redimensionarProveedores(Tienda* tienda);
+
+//Prototipos - Utilidades
 void dibujarTabla(int anchos[], int columnas);
 bool compararLetras(const char* original, const char* busqueda);
-void actualizarProducto(Tienda* tienda);
+bool validarEmail(const char* email);
+bool rifDuplicado(Tienda* tienda, const char* rif);
+void obtenerFechaActual(char* fecha);
 
 #endif 

@@ -78,6 +78,16 @@ bool compararLetras(const char* original, const char* busqueda){
     return strstr(tempOriginal, tempBusqueda) != nullptr;
 }
 
+//Validacion de email: debe contener '@' y al menos un '.' despues del @
+bool validarEmail(const char* email){
+    if(!email || !email[0]) return false;
+    const char* arroba = strchr(email, '@');
+    if(!arroba) return false;
+    const char* punto = strchr(arroba + 1, '.');
+    if(!punto) return false;
+    return true;
+}
+
 //Creacion de tabla.
 void dibujarTabla(int anchos[], int columnas){
     cout << "+";

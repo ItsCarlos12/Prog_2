@@ -1,10 +1,13 @@
 #include <iostream>
 #include <ctime>
-#include <cstring> 
-#include<iomanip>
+#include <cstring>
+#include <iomanip>
 #include "structs.h"
 
 using namespace std;
+
+void mostrarTabla();
+void imprimirFilaProducto(const Producto& p);
 
 //5. Redimensionar el array.
 void redimensionarProductos(Tienda* tienda){
