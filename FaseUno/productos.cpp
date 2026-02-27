@@ -38,6 +38,15 @@ bool codigoDuplicado(Tienda* tienda, const char* codigo){
     return false;
 }
 
+bool codigoDuplicadoEnOtros(Tienda* tienda, const char* codigo, int idExcluir){
+    for(int i = 0; i < tienda -> numProductos; i++){
+        if(tienda -> productos[i].id != idExcluir && strcmp(tienda -> productos[i].codigo, codigo) == 0){
+            return true;
+        }
+    }
+    return false;
+}
+
 bool existeProveedor(Tienda* tienda, int idProveedor){
     for(int i=0; i<tienda -> numProveedores; i++){
         if(tienda -> proveedores[i].id == idProveedor){
@@ -324,9 +333,87 @@ void actualizarProducto(Tienda* tienda){
                 }
                 break;
             }
-            case 1: case 2: case 3: case 4: case 5: case 6:
-                cout << "Opcion en desarrollo." << endl;
+            case 1:{
+                char buffer[20];
+                cout << "Nuevo codigo (actual: " << pEdit.codigo << "). 0 o CANCELAR para no cambiar: ";
+                cin.getline(buffer, 20);
+                if(strcmp(buffer, "0") == 0 || strcasecmp(buffer, "CANCELAR") == 0){
+                    break;
+                }
+                if(codigoDuplicadoEnOtros(tienda, buffer, pEdit.id)){
+                    cout << "Error: el codigo ya existe en otro producto." << endl;
+                    break;
+                }
+                strcpy(pEdit.codigo, buffer);
+                cout << "Codigo actualizado." << endl;
                 break;
+            }
+            case 2:{
+                char buffer[100];
+                cout << "Nuevo nombre (actual: " << pEdit.nombre << "). 0 o CANCELAR para no cambiar: ";
+                cin.getline(buffer, 100);
+                if(strcmp(buffer, "0") == 0 || strcasecmp(buffer, "CANCELAR") == 0){
+                    break;
+                }
+                strcpy(pEdit.nombre, buffer);
+                cout << "Nombre actualizado." << endl;
+                break;
+            }
+            case 3:{
+                char buffer[200];
+                cout << "Nueva descripcion (actual: " << pEdit.descripcion << "). 0 o CANCELAR para no cambiar: ";
+                cin.getline(buffer, 200);
+                if(strcmp(buffer, "0") == 0 || strcasecmp(buffer, "CANCELAR") == 0){
+                    break;
+                }
+                strcpy(pEdit.descripcion, buffer);
+                cout << "Descripcion actualizada." << endl;
+                break;
+            }
+            case 4:{
+                int temp;
+                cout << "Nuevo ID de proveedor (actual: " << pEdit.idProveedor << "). 0 para no cambiar: ";
+                cin >> temp;
+                cin.ignore();
+                if(temp == 0){
+                    break;
+                }
+                if(!existeProveedor(tienda, temp)){
+                    cout << "Error: el proveedor con ID " << temp << " no existe." << endl;
+                    break;
+                }
+                pEdit.idProveedor = temp;
+                cout << "Proveedor actualizado." << endl;
+                break;
+            }
+            case 5:{
+                float nuevoPrecio;
+                cout << "Nuevo precio (actual: " << pEdit.precio << "). 0 para no cambiar: ";
+                cin >> nuevoPrecio;
+                cin.ignore();
+                if(nuevoPrecio == 0){
+                    break;
+                }
+                if(nuevoPrecio <= 0){
+                    cout << "Error: el precio debe ser mayor a 0." << endl;
+                    break;
+                }
+                pEdit.precio = nuevoPrecio;
+                cout << "Precio actualizado." << endl;
+                break;
+            }
+            case 6:{
+                int nuevoStock;
+                cout << "Nuevo stock (actual: " << pEdit.stock << "). Ingrese valor negativo para no cambiar: ";
+                cin >> nuevoStock;
+                cin.ignore();
+                if(nuevoStock < 0){
+                    break;
+                }
+                pEdit.stock = nuevoStock;
+                cout << "Stock actualizado." << endl;
+                break;
+            }
             default:
                 cout << "Opcion no valida." << endl;
         }
